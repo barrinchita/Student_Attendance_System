@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.16.4",
+    "nodemon": "^3.1.10"
+  },
+  "name": "attendance_sys_backend",
+  "version": "1.0.0",
+  "description": "this is a microservice backend for the student attendance marking system. This part of the service is to mark attendance manually.",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch app.js"
+  },
+  "author": "Barrin Chita",
+  "license": "ISC"
+}
