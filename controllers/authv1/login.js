@@ -20,7 +20,7 @@ const login = async (req, res) => {
 
         // check if user exist with email.
         let checkUser = null;
-        type == "Admin" ? checkUser = await Admin.findOne({ email: `${user.email}` }, { email: 1, password: 1, adminId: 1 }) : checkUser = await Student.findOne({ email: `${user.email}` }, { email: 1, password: 1 })
+        type == "Admin" ? checkUser = await Admin.findOne({ email: `${user.email}` }, { email: 1, password: 1, adminId: 1 }) : checkUser = await Student.findOne({ email: `${user.email}` }, { email: 1, password: 1, studentId: 1 });
 
         if (checkUser == null) return res.status(301).json({ error: true, message: `User with email ${user.email} doesn't exist.` });
 
@@ -29,7 +29,7 @@ const login = async (req, res) => {
 
             const isValid = await bcrypt.compare(password, checkUser.password);
             if (isValid) {
-                const accessToken = jwt.sign({ userEmail: checkUser.email, password: checkUser.adminId }, ACCESS_TOKEN_SECRET_KEY, { expiresIn: '5m' });
+                const accessToken = jwt.sign({ userEmail: checkUser.email, userId: checkUser.studentId }, ACCESS_TOKEN_SECRET_KEY, { expiresIn: '5m' });
 
                 return res.status(201).json({ success: true, message: 'User verified', accessToken: accessToken });
             } else {
@@ -37,10 +37,9 @@ const login = async (req, res) => {
             }
         } else if (type == "Student") {
             let {password} = user
-            console.log(checkUser, "password: ", password)
             const isValid = await bcrypt.compare(password, checkUser.password);
             if (isValid) {
-                const accessToken = jwt.sign({ userEmail: checkUser.email, password: checkUser.adminId }, ACCESS_TOKEN_SECRET_KEY, { expiresIn: '5m' });
+                const accessToken = jwt.sign({ userEmail: checkUser.email, userId: checkUser.adminId }, ACCESS_TOKEN_SECRET_KEY, { expiresIn: '5m' });
 
                 return res.status(201).json({ success: true, message: 'User verified', accessToken: accessToken });
             } else {
